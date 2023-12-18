@@ -1,0 +1,26 @@
+server:
+  port: 7090
+
+spring:
+  elasticsearch:
+    uris: http://localhost:9200
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: user
+  zipkin:
+    enabled: true
+    base-url: http://localhost:9411
+    service:
+      name: elastic-service
+
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+
+rabbitmq:
+  elastic-exchange: authExchange
+  elastic-queue: elasticQueue
+  elastic-bindingKey: elasticBindingKey

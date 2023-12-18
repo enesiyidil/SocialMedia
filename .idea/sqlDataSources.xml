@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="4efa3aab-c642-4a91-a80c-1a90922fbc8d" name="postgres@localhost Mapping">
+      <data-sources db="11e3f4b4-969f-4dfe-81b5-bddef0b5f727" ddl="cbb10772-eef6-4cb2-b07d-0f94ae6392b3" />
+      <scope>
+        <node kind="database">
+          <name qname="AuthDb" />
+          <name qname="postgres" />
+          <name qname="UserDb" />
+        </node>
+      </scope>
+    </mapping>
+    <mapping uuid="b0940c9a-6a88-49b4-bdeb-ef0077b06282" name="postgres@localhost (DDL) Mapping">
+      <data-sources db="11e3f4b4-969f-4dfe-81b5-bddef0b5f727" ddl="1aef438f-c2dd-4ff7-a48a-15737a0eeff2" />
+      <scope>
+        <node kind="database" negative="1" />
+      </scope>
+    </mapping>
+  </component>
+</project>
