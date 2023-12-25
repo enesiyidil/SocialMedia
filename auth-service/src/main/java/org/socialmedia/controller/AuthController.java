@@ -13,6 +13,7 @@ import org.socialmedia.exception.ErrorType;
 import org.socialmedia.service.AuthService;
 import org.socialmedia.utility.JWTTokenManager;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -60,6 +61,7 @@ public class AuthController {
         return ResponseEntity.ok(jwtTokenManager.createToken(id).get());
     }
 
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/findall")
     public ResponseEntity<List<Auth>> findAll(){
         return ResponseEntity.ok(authService.findAll());

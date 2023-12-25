@@ -15,6 +15,5 @@ public interface IUserMapper {
 
     UserProfile toUserProfile(UserSaveRequestDto dto);
 
-    @Mapping(source = "id", target = "userProfileId")
     RegisterElasticModel toRegisterModel(UserProfile userProfile);
 }

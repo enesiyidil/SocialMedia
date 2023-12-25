@@ -13,8 +13,9 @@ public interface IUserMapper {
 
     IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
 
-    @Mapping(source = "id", target = "userProfileId")
+//    @Mapping(source = "id", target = "userProfileId")
     UserProfile toUserProfile(UserProfileResponseDto dto);
 
+//    @Mapping(source = "id",target = "userProfileId")
     UserProfile toUserProfile(RegisterElasticModel model);
 }

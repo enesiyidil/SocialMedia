@@ -2,6 +2,11 @@ server:
   port: 9090
 
 spring:
+  security:
+    user:
+      name: enes
+      password: 1234
+
   zipkin:
     enabled: true
     base-url: http://localhost:9411

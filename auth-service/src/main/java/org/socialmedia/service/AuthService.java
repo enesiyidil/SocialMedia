@@ -63,8 +63,9 @@ public class AuthService extends ServiceManager<Auth,Long> {
                 .activationCode(CodeGenerator.generateCode())
                 .build();
         authRepository.save(auth);
-//        userManager.createNewUser(AuthMapper.INSTANCE.toUserSaveRequestDto(auth));
-        registerProducer.sendNewUser(AuthMapper.INSTANCE.toUserRegisterModel(auth));
+        String token = "Bearer " + jwtTokenManager.createToken(auth.getId(), auth.getRole()).get();
+        userManager.createNewUser(AuthMapper.INSTANCE.toUserSaveRequestDto(auth), token);
+//        registerProducer.sendNewUser(AuthMapper.INSTANCE.toUserRegisterModel(auth));
         sendMailProducer.sendNewUser(AuthMapper.INSTANCE.toSendMailModel(auth));
         return AuthMapper.INSTANCE.toRegisterResponseDto(auth);
     }

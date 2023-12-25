@@ -1,0 +1,183 @@
+version: '3'
+
+services:
+  PostgreAuth:
+    image: postgres:latest
+    container_name: socialmedia-postgre-auth
+    networks:
+      - social-media-network
+    environment:
+      POSTGRES_DB: AuthDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+
+  PostgreUser:
+    image: postgres:latest
+    container_name: socialmedia-postgre-user
+    networks:
+      - social-media-network
+    environment:
+      POSTGRES_DB: UserDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5433:5432"
+
+  PostgrePost:
+    image: postgres:latest
+    container_name: socialmedia-postgre-post
+    networks:
+      - social-media-network
+    environment:
+      POSTGRES_DB: PostDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5434:5432"
+
+  ElasticSearch:
+    image: elasticsearch:7.17.3
+    container_name: socialmedia-elasticsearch
+    networks:
+      - social-media-network
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - "discovery.type=single-node"
+    mem_limit: 512m
+
+  Redis:
+    image: redis
+    container_name: socialmedia-redis
+    networks:
+      - social-media-network
+    ports:
+      - "6379:6379"
+    mem_limit: 256m
+
+  RabbitMQ:
+    image: rabbitmq:3-management
+    container_name: socialmedia-rabbit
+    networks:
+      - social-media-network
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: user
+    mem_limit: 128m
+
+  Zipkin:
+    image: openzipkin/zipkin
+    container_name: socialmedia-xipkin
+    networks:
+      - social-media-network
+    ports:
+      - "9411:9411"
+    mem_limit: 256m
+
+
+  ConfigServer:
+    build: ./config-server/
+    container_name: SocialMedia-ConfigServer
+    networks:
+      - social-media-network
+    image: social-media-config-server-image
+    ports:
+      - "8888:8888"
+
+  ApiGatewayService:
+    build: ./api-gateway-service/
+    container_name: SocialMedia-ApiGatewayService
+    networks:
+      - social-media-network
+    image: social-media-api-gateway-service-image
+    ports:
+      - "80:80"
+    depends_on:
+      - ConfigServer
+      - Zipkin
+
+  AuthMicroService:
+    build: ./auth-service/
+    container_name: SocialMedia-AuthMicroService
+    networks:
+      - social-media-network
+    image: social-media-auth-micro-service-image
+    ports:
+      - "9090:9090"
+    environment:
+      JAVA12_SECRET_KEY: secretKey
+      JAVA12_ISSUER: issuer
+    depends_on:
+      - ConfigServer
+      - PostgreAuth
+      - Zipkin
+      - Redis
+      - RabbitMQ
+
+  ElasticMicroService:
+    build: ./elastic-service/
+    container_name: SocialMedia-ElasticMicroService
+    networks:
+      - social-media-network
+    image: social-media-elastic-micro-service-image
+    ports:
+      - "7090:7090"
+    depends_on:
+      - ConfigServer
+      - Zipkin
+      - ElasticSearch
+      - RabbitMQ
+
+  MailMicroService:
+    build: ./mail-service/
+    container_name: SocialMedia-MailMicroService
+    networks:
+      - social-media-network
+    image: social-media-mail-micro-service-image
+    ports:
+      - "9093:9093"
+    depends_on:
+      - ConfigServer
+      - Zipkin
+      - RabbitMQ
+
+  PostMicroService:
+    build: ./post-service/
+    container_name: SocialMedia-PostMicroService
+    networks:
+      - social-media-network
+    image: social-media-post-micro-service-image
+    ports:
+      - "9092:9092"
+    depends_on:
+      - ConfigServer
+      - Zipkin
+      - PostgrePost
+
+  UserMicroService:
+    build: ./user-service/
+    container_name: SocialMedia-UserMicroService
+    networks:
+      - social-media-network
+    image: social-media-user-micro-service-image
+    ports:
+      - "9091:9091"
+    environment:
+      JAVA12_SECRET_KEY: secretKey
+      JAVA12_ISSUER: issuer
+    depends_on:
+      - ConfigServer
+      - Zipkin
+      - RabbitMQ
+      - Redis
+      - PostgreUser
+
+networks:
+  social-media-network:
+    driver: bridge

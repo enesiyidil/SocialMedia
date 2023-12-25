@@ -12,7 +12,7 @@ import org.socialmedia.entity.enums.EStatus;
 @Builder
 public class UserProfileResponseDto {
 
-    private Long id;
+    private String id;
 
     private Long authId;
 

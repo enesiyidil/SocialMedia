@@ -20,7 +20,7 @@ public class UserProfile {
     @Id
     private String id;
 
-    private Long userProfileId;
+//    private String userProfileId;
 
     private Long authId;
 

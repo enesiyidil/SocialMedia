@@ -12,7 +12,7 @@ import org.socialmedia.entity.enums.EStatus;
 @Builder
 public class RegisterElasticModel {
 
-    private Long userProfileId;
+    private String id;
 
     private Long authId;
 

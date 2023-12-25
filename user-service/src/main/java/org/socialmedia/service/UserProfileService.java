@@ -15,6 +15,7 @@ import org.socialmedia.repository.UserProfileRepository;
 import org.socialmedia.utility.JWTTokenManager;
 import org.socialmedia.utility.ServiceManager;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,7 +96,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         return "Profil başarıyla güncellendi";
     }
 
-    public Long getUserIdfromToken(String token) {
+    public String getUserIdfromToken(String token) {
         Long authId = jwtTokenManager.getIdFromToken(token).orElseThrow(() -> new UserServiceException(ErrorType.INVALID_TOKEN));
 
         Optional<UserProfile> optionalUserProfile = repository.findByAuthId(authId);
@@ -106,5 +107,17 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
     @Cacheable(value = "userProfile")
     public UserProfile findByUsername(String username) {
         return repository.findByUsername(username).orElseThrow(() -> new UserServiceException(ErrorType.USER_NOT_FOUND));
+    }
+
+    public Page<UserProfile> findAllByPageable(Integer pageSize, Integer pageNumber, String direction, String sortParameter) {
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortParameter);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        return repository.findAll(pageable);
+    }
+
+    public Slice<UserProfile> findAllBySlice(Integer pageSize, Integer pageNumber, String direction, String sortParameter) {
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortParameter);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        return repository.findAll(pageable);
     }
 }
