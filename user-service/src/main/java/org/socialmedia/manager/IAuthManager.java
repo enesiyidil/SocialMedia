@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "userprofile-auth", url = "http://localhost:9090/auth", decode404 = true)
+@FeignClient(name = "userprofile-auth", url = "${feign.auth}", decode404 = true)
 public interface IAuthManager {
 
     @PutMapping("/update")

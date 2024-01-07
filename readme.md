@@ -1,7 +1,7 @@
 # Social Media
 ## Project Description
 In the project simulating a social media platform, a RestFul API-based structure was implemented, 
-adhering to a micro services architecture. Spring Framework components such as Spring Boot, Web, 
+adhering to a microservice architecture. Spring Framework components such as Spring Boot, Web, 
 Security, and Data JPA were integrated to establish a layered structure, ensuring that each service is 
 designed to perform specific functionalities. The project's dependencies were managed using Gradle, and 
 it was made testable through Docker containers. Leveraging Docker's flexibility and portability advantages, 
@@ -20,7 +20,7 @@ the project's independence and self-sufficiency were reinforced.
 * Data Storage and Processing
   * Caching: Redis
   * Message Broker: RabbitMQ
-  * Search Engine: Elastic Search
+  * Search Engine: ElasticSearch
 * Containerization and Distribution
   * Kubernetes
   * Docker

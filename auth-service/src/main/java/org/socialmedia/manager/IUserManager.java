@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "auth-userprofile", url = "http://localhost:9091/user", decode404 = true)
+@FeignClient(name = "auth-userprofile", url = "${feign.user}", decode404 = true)
 public interface IUserManager {
 
     @PostMapping("/save")

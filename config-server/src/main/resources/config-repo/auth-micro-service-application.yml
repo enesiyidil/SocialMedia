@@ -44,3 +44,6 @@ rabbitmq:
   activeStatus-bindingKey: activeStatusBindingKey
   sendMail-queue: sendMailQueue
   sendMail-bindingKey: sendMailBindingKey
+
+feign:
+  user: http://localhost:9091/user

@@ -44,5 +44,5 @@ spring:
                 name: postCircuitBreaker
                 fallbackUri: forward:/fallback/post
 
-      default-filters:
-        - RewritePath=/?(?<segment>.*), /$\{segment}
+#      default-filters:
+#        - RewritePath=/?(?<segment>.*), /$\{segment}

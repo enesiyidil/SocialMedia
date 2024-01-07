@@ -39,3 +39,6 @@ rabbitmq:
   elastic-exchange: authExchange
   elastic-queue: elasticQueue
   elastic-bindingKey: elasticBindingKey
+
+feign:
+  auth: http://localhost:9090/auth
